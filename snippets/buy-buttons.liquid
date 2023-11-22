@@ -1,0 +1,327 @@
+{% comment %}
+  Renders product buy-buttons.
+  Accepts:
+  - product: {Object} product object.
+  - block: {Object} passing the block information.
+  - product_form_id: {String} product form id.
+  - section_id: {String} id of section to which this snippet belongs.
+  - show_pickup_availability: {Boolean} for the pickup availability. If true the pickup availability is rendered, false - not rendered (optional).
+
+  Usage:
+  {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true %}
+{% endcomment %}
+<div {{ block.shopify_attributes }}>
+  {%- if product != blank -%}
+    {%- liquid
+      assign gift_card_recipient_feature_active = false
+      if block.settings.show_gift_card_recipient and product.gift_card?
+        assign gift_card_recipient_feature_active = true
+      endif
+
+      assign show_dynamic_checkout = false
+      if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
+        assign show_dynamic_checkout = true
+      endif
+    -%}
+
+    <product-form class="product-form" data-hide-errors="{{ gift_card_recipient_feature_active }}">
+      <div class="product-form__error-message-wrapper" role="alert" hidden>
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          class="icon icon-error"
+          viewBox="0 0 13 13"
+        >
+          <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+          <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+          <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+          <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+        </svg>
+        <span class="product-form__error-message"></span>
+      </div>
+
+      {%- form 'product',
+          product,
+          id: product_form_id,
+          class: 'form',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form'
+        -%}
+<div id="customized-form" style="display: none;">
+
+  <!-- Thumbnail Image -->
+  <a href="#" onclick="openLightbox();return false;">
+    <img src="https://cdn.shopify.com/s/files/1/0764/0508/0351/files/Size-Chart-100-1.jpg?v=1692800276" alt="Size Chart" style="max-width:100%; cursor:pointer;">
+  </a>
+
+  <!-- Lightbox Structure -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox();">
+    <img id="lightbox-img" src="https://cdn.shopify.com/s/files/1/0764/0508/0351/files/Size-Chart-100-1.jpg?v=1692800276" alt="Size Chart">
+  </div>
+
+  <!-- Customized Form Styles -->
+  <style>
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      text-align: center;
+      z-index: 9999;
+    }
+
+    .lightbox img {
+      max-width: 80%;
+      max-height: 80%;
+      margin: 5% auto;
+      display: block;
+    }
+
+    .custom-input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 14px;
+      -moz-appearance: textfield;
+      -webkit-appearance: none;
+    }
+
+    .custom-label {
+      font-size: small;
+      color: #333;
+    }
+
+    .required span {
+      color: red;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+
+  <!-- Customized Form Inputs -->
+  <label for="properties[Height]" class="custom-label required">Height (in ft) <span>*</span></label>
+  <input type="number" name="properties[Height]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Weight -->
+  <label for="properties[Weight]" class="custom-label required">Weight (in pounds) <span>*</span></label>
+  <input type="number" name="properties[Weight]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Shirt Length -->
+  <label for="properties[Shirt Length]" class="custom-label required">Shirt Length (in inches) <span>*</span></label>
+  <input type="number" name="properties[Shirt Length]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Bust -->
+  <label for="properties[Bust]" class="custom-label required">Bust (in inches) <span>*</span></label>
+  <input type="number" name="properties[Bust]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Waist -->
+  <label for="properties[Waist]" class="custom-label required">Waist (in inches) <span>*</span></label>
+  <input type="number" name="properties[Waist]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Hips -->
+  <label for="properties[Hips]" class="custom-label required">Hips (in inches) <span>*</span></label>
+  <input type="number" name="properties[Hips]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Shoulder -->
+  <label for="properties[Shoulder]" class="custom-label required">Shoulder (in inches) <span>*</span></label>
+  <input type="number" name="properties[Shoulder]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Pants Length -->
+  <label for="properties[Pants]" class="custom-label required">Pants Length (belly button to ankle in inches) <span>*</span></label>
+  <input type="number" name="properties[Pants]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Thigh Length -->
+  <label for="properties[Thigh]" class="custom-label required">Thigh Length (of the heavier part in inches) <span>*</span></label>
+  <input type="number" name="properties[Thigh]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Above Knee -->
+  <label for="properties[Knee Above]" class="custom-label required">Above Knee (2 inches above knee in inches) <span>*</span></label>
+  <input type="number" name="properties[Knee Above]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+  <!-- Sleeve Type -->
+  <label for="properties[Sleeve Type]" class="custom-label required">Sleeve Type <span>*</span></label>
+  <select id="sleeveType" name="properties[Sleeve Type]" class="custom-input" onchange="toggleSleeveOptions()" required>
+    <option value="" disabled selected hidden>Please select a sleeve type</option>
+    <option value="Sleeveless">Sleeveless</option>
+    <option value="Short">Short</option>
+    <option value="Quarter">Quarter</option>
+    <option value="Full">Full</option>
+  </select>
+
+  <div id="sleeveOptions" style="display: none;">
+    <!-- Sleeve Length -->
+    <label for="properties[Sleeve Length]" class="custom-label required">Sleeve Length (in inches) <span>*</span></label>
+    <input type="number" name="properties[Sleeve Length]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+    <!-- Bicep -->
+    <label for="properties[Bicep]" class="custom-label required">Bicep (in inches) <span>*</span></label>
+    <input type="number" name="properties[Bicep]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+    <!-- Elbow -->
+    <label for="properties[Elbow]" class="custom-label required">Elbow (in inches) <span>*</span></label>
+    <input type="number" name="properties[Elbow]" class="custom-input" required placeholder="Refer to the image above for accurate size">
+    <!-- Wrist -->
+    <label for="properties[Wrist]" class="custom-label required">Wrist (in inches) <span>*</span></label>
+    <input type="number" name="properties[Wrist]" class="custom-input" placeholder="Refer to the image above for accurate size">
+  </div>
+
+  <!-- JavaScript for the Lightbox -->
+  <script>
+    function openLightbox() {
+      document.getElementById('lightbox').style.display = 'block';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+
+    function toggleSleeveOptions() {
+      var sleeveType = document.getElementById("sleeveType").value;
+      var sleeveOptions = document.getElementById("sleeveOptions");
+
+      if (sleeveType === "Sleeveless") {
+        sleeveOptions.style.display = "none";
+      } else {
+        sleeveOptions.style.display = "block";
+      }
+    }
+  </script>
+
+</div>
+
+<script>
+  function toggleSleeveOptions() {
+    var sleeveType = document.getElementById("sleeveType").value;
+    var sleeveOptions = document.getElementById("sleeveOptions");
+
+    if (sleeveType === "Sleeveless") {
+        sleeveOptions.style.display = "none";
+    } else {
+        sleeveOptions.style.display = "block";
+    }
+  }
+</script>
+
+
+
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var selectElement = document.querySelector('select[name="options[Size]"]');
+    if (selectElement) {
+      selectElement.addEventListener('change', toggleCustomizedForm);
+      toggleCustomizedForm(); // Call on page load to handle pre-selected options
+    }
+  });
+
+  function toggleCustomizedForm() {
+    var selectElement = document.querySelector('select[name="options[Size]"]');
+    var customizedForm = document.getElementById('customized-form');
+    if (selectElement && customizedForm) {
+      if (selectElement.value === "Customized") {
+        customizedForm.style.display = "block";
+      } else {
+        customizedForm.style.display = "none";
+      }
+    }
+  }
+</script>
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          disabled
+          class="product-variant-id"
+        >
+
+        {%- if gift_card_recipient_feature_active -%}
+          {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+        {%- endif -%}
+
+        <div class="product-form__buttons">
+          {%- liquid
+            assign check_against_inventory = true
+            if product.selected_or_first_available_variant.inventory_management != 'shopify' or  product.selected_or_first_available_variant.inventory_policy == 'continue'
+              assign check_against_inventory = false
+            endif
+            if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+              assign quantity_rule_soldout = true
+            endif
+          -%}
+          <button
+            id = "ProductSubmitButton-{{ section_id }}"
+            type="submit"
+            name="add"
+            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+              disabled
+            {% endif %}
+          >
+            <span>
+              {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- else -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- endif -%}
+            </span>
+            <div class="loading-overlay__spinner hidden">
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="spinner"
+                viewBox="0 0 66 66"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+              </svg>
+            </div>
+          </button>
+          {%- if show_dynamic_checkout -%}
+            {{ form | payment_button }}
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+    </product-form>
+  {%- else -%}
+    <div class="product-form">
+      <div class="product-form__buttons form">
+        <button
+          type="submit"
+          name="add"
+          class="product-form__submit button button--full-width button--primary"
+          disabled
+        >
+          {{ 'products.product.sold_out' | t }}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if show_pickup_availability -%}
+    {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
+
+    {%- assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities
+      | where: 'pick_up_enabled', true
+    -%}
+
+    <pickup-availability
+      class="product__pickup-availabilities no-js-hidden quick-add-hidden"
+      {% if product.selected_or_first_available_variant.available and pick_up_availabilities.size > 0 %}
+        available
+      {% endif %}
+      data-root-url="{{ routes.root_url }}"
+      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+      data-has-only-default-variant="{{ product.has_only_default_variant }}"
+    >
+      <template>
+        <pickup-availability-preview class="pickup-availability-preview">
+          {% render 'icon-unavailable' %}
+          <div class="pickup-availability-info">
+            <p class="caption-large">{{ 'products.product.pickup_availability.unavailable' | t }}</p>
+            <button class="pickup-availability-button link link--text underlined-link">
+              {{ 'products.product.pickup_availability.refresh' | t }}
+            </button>
+          </div>
+        </pickup-availability-preview>
+      </template>
+    </pickup-availability>
+
+    <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+</div>
